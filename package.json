@@ -1,0 +1,51 @@
+{
+  "name": "docubot",
+  "version": "1.0.0",
+  "description": "Project to describe other projects",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "lint": "eslint --fix",
+    "typecheck": "tsc -b",
+    "dev": "tsx watch ./index.ts",
+    "start": "node dist/index.js",
+    "parse:entities": "tsx ./src/entrypoint/parseEntities.script.ts",
+    "parse:entities:dev": "tsx --watch ./src/entrypoint/parseEntities.script.ts mode=dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/docubot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/docubot/issues"
+  },
+  "homepage": "https://github.com/yourusername/docubot#readme",
+  "author": "betaucourt@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/jest": "^29.5.13",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.11.0",
+    "jest": "^29.7.0",
+    "prettier": "3.3.3",
+    "ts-jest": "^29.2.5",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.10.0"
+  },
+  "dependencies": {
+    "fastify": "^5.0.0",
+    "ts-morph": "^24.0.0"
+  }
+}

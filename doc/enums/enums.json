@@ -1,0 +1,142 @@
+[
+  {
+    "name": "GetEnum",
+    "properties": {
+      "Map": "Map",
+      "Record": "Record",
+      "List": "List"
+    },
+    "propertiesType": {
+      "Map": "string",
+      "Record": "string",
+      "List": "string"
+    },
+    "filePath": "C:/Users/Smogogo/WebstormProjects/docubot/src/handler/project.handler.ts",
+    "startLine": 8,
+    "endLine": 12
+  },
+  {
+    "name": "ConfigEnum",
+    "properties": {
+      "baseUrl": "baseUrl",
+      "documentsPath": "documentsPath"
+    },
+    "propertiesType": {
+      "baseUrl": "string",
+      "documentsPath": "string"
+    },
+    "filePath": "C:/Users/Smogogo/WebstormProjects/docubot/src/storage/config.storage.ts",
+    "startLine": 15,
+    "endLine": 18
+  },
+  {
+    "name": "UserRole",
+    "properties": {
+      "Admin": "ADMIN",
+      "User": "USER",
+      "Guest": "GUEST"
+    },
+    "propertiesType": {
+      "Admin": "string",
+      "User": "string",
+      "Guest": "string"
+    },
+    "filePath": "C:/Users/Smogogo/WebstormProjects/docubot/tests/examples/enum.ts",
+    "startLine": 1,
+    "endLine": 5
+  },
+  {
+    "name": "HttpStatusCode",
+    "properties": {
+      "OK": 200,
+      "BadRequest": 400,
+      "NotFound": 404,
+      "InternalServerError": 500
+    },
+    "propertiesType": {
+      "OK": "number",
+      "BadRequest": "number",
+      "NotFound": "number",
+      "InternalServerError": "number"
+    },
+    "filePath": "C:/Users/Smogogo/WebstormProjects/docubot/tests/examples/enum.ts",
+    "startLine": 11,
+    "endLine": 16,
+    "description": "Enum for HTTP status codes."
+  },
+  {
+    "name": "ResponseStatus",
+    "properties": {
+      "Success": "SUCCESS",
+      "Failure": 0,
+      "Pending": 1
+    },
+    "propertiesType": {
+      "Success": "string",
+      "Failure": "number",
+      "Pending": "number"
+    },
+    "filePath": "C:/Users/Smogogo/WebstormProjects/docubot/tests/examples/enum.ts",
+    "startLine": 18,
+    "endLine": 22
+  },
+  {
+    "name": "FilePermissions",
+    "properties": {
+      "Read": "1 << 0",
+      "Write": "1 << 1",
+      "Execute": "1 << 2"
+    },
+    "propertiesType": {
+      "Read": "string",
+      "Write": "string",
+      "Execute": "string"
+    },
+    "filePath": "C:/Users/Smogogo/WebstormProjects/docubot/tests/examples/enum.ts",
+    "startLine": 24,
+    "endLine": 28
+  },
+  {
+    "name": "LogLevel",
+    "properties": {},
+    "propertiesType": {
+      "Debug": "number",
+      "Info": "number",
+      "Warn": "number",
+      "Error": "number"
+    },
+    "filePath": "C:/Users/Smogogo/WebstormProjects/docubot/tests/examples/enum.ts",
+    "startLine": 30,
+    "endLine": 35
+  },
+  {
+    "name": "PaymentStatus",
+    "properties": {
+      "Pending": "PENDING",
+      "Completed": "COMPLETED",
+      "Failed": "FAILED"
+    },
+    "propertiesType": {
+      "Pending": "string",
+      "Completed": "string",
+      "Failed": "string"
+    },
+    "filePath": "C:/Users/Smogogo/WebstormProjects/docubot/tests/examples/enum.ts",
+    "startLine": 37,
+    "endLine": 41
+  },
+  {
+    "name": "MapErrorEnum",
+    "properties": {
+      "KeyAlreadyExists": "0",
+      "KeyDoesNotExist": "Key does not exist"
+    },
+    "propertiesType": {
+      "KeyAlreadyExists": "number",
+      "KeyDoesNotExist": "string"
+    },
+    "filePath": "C:/Users/Smogogo/WebstormProjects/docubot/src/error/storage/map.error.ts",
+    "startLine": 7,
+    "endLine": 10
+  }
+]
