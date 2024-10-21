@@ -1,7 +1,12 @@
-import { ProjectHandler } from "@handler/project.handler";
+import { EntryPoint } from "@entrypoint/entryPoint.abstract";
 
-const projectHandler = new ProjectHandler();
+export class ParseEntityScript extends EntryPoint {
+  main(): number {
+    this.project.handleEnums();
 
-projectHandler.handleEnums();
+    this.project.generateDocumentation();
+    return 0;
+  }
 
-projectHandler.generateDocumentation();
+  init(): void {}
+}

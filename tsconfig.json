@@ -30,6 +30,7 @@
       "@core/*": ["src/core/*"],
       "@storage/*": ["src/storage/*"],
       "@handler/*": ["src/handler/*"],
+      "@dev" : ["src/dev"],
     }
   }
 }

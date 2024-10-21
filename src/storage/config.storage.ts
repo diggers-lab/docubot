@@ -29,7 +29,7 @@ export class ConfigStorage {
 
   constructor() {
     this.config = JSON.parse(
-      fs.readFileSync("./config/configFile.json", "utf-8"),
+      fs.readFileSync("./config/docubot.config.json", "utf-8"),
     );
     this.getType = GetEnum.List;
   }
