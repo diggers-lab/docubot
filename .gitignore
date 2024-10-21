@@ -2,3 +2,7 @@ node_modules
 dist
 .idea
 config
+
+doc
+src/dev
+.env.local

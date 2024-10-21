@@ -28,6 +28,9 @@
   "homepage": "https://github.com/yourusername/docubot#readme",
   "author": "betaucourt@gmail.com",
   "license": "MIT",
+  "dependencies": {
+    "ts-morph": "^24.0.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
     "@types/jest": "^29.5.13",
@@ -43,9 +46,5 @@
     "tsx": "^4.16.2",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.10.0"
-  },
-  "dependencies": {
-    "fastify": "^5.0.0",
-    "ts-morph": "^24.0.0"
   }
 }
