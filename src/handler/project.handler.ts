@@ -11,14 +11,24 @@ export enum GetEnum {
   List = "List",
 }
 
+const tsConfigName = "tsconfig.json";
+
+interface IProjectHandlerSettings {
+  configPath: string;
+  tsConfigPath: string;
+}
+
 export class ProjectHandler {
   readonly project: Project;
   private readonly storage: ConfigStorage;
 
-  constructor() {
-    this.storage = new ConfigStorage();
+  constructor(configPath: string) {
+    this.storage = new ConfigStorage(configPath);
+    console.log(
+      `${path.join(this.storage.getConfigProperty(ConfigEnum.baseUrl), tsConfigName)}`,
+    );
     this.project = new Project({
-      tsConfigFilePath: `${path.join(this.storage.getConfigProperty(ConfigEnum.baseUrl), "tsconfig.json")}`,
+      tsConfigFilePath: `${path.join(this.storage.getConfigProperty(ConfigEnum.baseUrl), tsConfigName)}`,
       skipAddingFilesFromTsConfig: false,
       useInMemoryFileSystem: false,
     });
@@ -29,7 +39,7 @@ export class ProjectHandler {
     DocumentHandler.createSourceFolder(
       this.storage.getConfigProperty(ConfigEnum.documentsPath),
     );
-
+    console.log("this.getEnums() :>> ", this.getEnums());
     DocumentHandler.printEnum(
       this.storage.getConfigProperty(ConfigEnum.documentsPath),
       this.getEnums(),

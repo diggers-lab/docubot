@@ -23,6 +23,9 @@
     "type": "git",
     "url": "https://github.com/yourusername/docubot.git"
   },
+  "bugs": {
+    "url": "https://github.com/yourusername/docubot/issues"
+  },
   "homepage": "https://github.com/yourusername/docubot#readme",
   "author": "betaucourt@gmail.com",
   "license": "MIT",

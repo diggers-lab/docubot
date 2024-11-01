@@ -18,7 +18,7 @@ export enum ConfigEnum {
 }
 
 export class ConfigStorage {
-  private readonly config: ConfigStorageBasics;
+  private readonly config: ConfigStorageBasics = {};
 
   public getType!: GetEnum;
 
@@ -27,10 +27,10 @@ export class ConfigStorage {
     IRuntimeEnumInterface
   >();
 
-  constructor() {
-    this.config = JSON.parse(
-      fs.readFileSync("./config/docubot.config.json", "utf-8"),
-    );
+  constructor(configPath: string) {
+    this.config.baseUrl = configPath;
+    console.log("configPath", configPath);
+    this.config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
     this.getType = GetEnum.List;
   }
 

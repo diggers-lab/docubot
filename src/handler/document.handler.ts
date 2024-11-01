@@ -22,12 +22,9 @@ export class DocumentHandler {
         console.error("Error creating enum folder: ", error);
       }
     }
-
-    if (process.argv.includes("mode=dev")) {
-      fs.writeFileSync(
-        `${path.join(sourceFolder, enumFolder, "enums.json")}`,
-        JSON.stringify(enums, null, 2),
-      );
-    }
+    fs.writeFileSync(
+      `${path.join(sourceFolder, enumFolder, "enums.json")}`,
+      JSON.stringify(enums, null, 2),
+    );
   }
 }
