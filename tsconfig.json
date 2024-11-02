@@ -27,6 +27,7 @@
       "@enum/*": ["src/enum/*"],
       "@entrypoint/*": ["src/entrypoint/*"],
       "@model/*": ["src/model/*"],
+      "@interface/*": ["src/model/interface/*"],
       "@core/*": ["src/core/*"],
       "@storage/*": ["src/storage/*"],
       "@handler/*": ["src/handler/*"],
