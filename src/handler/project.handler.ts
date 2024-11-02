@@ -39,7 +39,6 @@ export class ProjectHandler {
     DocumentHandler.createSourceFolder(
       this.storage.getConfigProperty(ConfigEnum.documentsPath),
     );
-    console.log("this.getEnums() :>> ", this.getEnums());
     DocumentHandler.printEnum(
       this.storage.getConfigProperty(ConfigEnum.documentsPath),
       this.getEnums(),

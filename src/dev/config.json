@@ -1,6 +1,0 @@
-{
-  "responses": {
-    "first" : "./docubot.config.json",
-    "second" : "./tsconfig.json"
-  }
-}
