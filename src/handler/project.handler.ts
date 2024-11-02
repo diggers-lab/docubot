@@ -1,15 +1,10 @@
-import { Project } from "ts-morph";
+import {Project} from "ts-morph";
 import * as path from "node:path";
-import { ConfigEnum, ConfigStorage } from "@storage/config.storage";
-import { DocumentHandler } from "@handler/document.handler";
-import { EnumHandler } from "@handler/enum.handler";
-import { IRuntimeEnumInterface } from "@model/enum/runtimeEnum.interface";
-
-export enum GetEnum {
-  Map = "Map",
-  Record = "Record",
-  List = "List",
-}
+import {ConfigEnum, ConfigStorage} from "@storage/config.storage";
+import {FileSystemHandler} from "@handler/fileSystemHandler";
+import {EnumHandler} from "@handler/enum.handler";
+import {GetEnum, IRuntimeEnumInterface, PrintEnum} from "@model/enum/runtimeEnum.interface";
+import {RuntimeEnumsHandler} from "@handler/project/enums.handler";
 
 const tsConfigName = "tsconfig.json";
 
@@ -21,6 +16,7 @@ interface IProjectHandlerSettings {
 export class ProjectHandler {
   readonly project: Project;
   private readonly storage: ConfigStorage;
+  enums!: RuntimeEnumsHandler;
 
   constructor(configPath: string) {
     this.storage = new ConfigStorage(configPath);
@@ -32,32 +28,53 @@ export class ProjectHandler {
       skipAddingFilesFromTsConfig: false,
       useInMemoryFileSystem: false,
     });
-    this.storage.getType = GetEnum.List;
+    this.storage.getType = GetEnum.LIST;
+  }
+
+  public getEnums(
+      getType: GetEnum,
+  ): | Map<string, IRuntimeEnumInterface>
+      | Record<string, IRuntimeEnumInterface>
+      | IRuntimeEnumInterface[]
+      | string {
+    //const enums = Array.from(this.storage.enums.values());
+    return this.enums.getEnums(getType);
   }
 
   public generateDocumentation(): void {
-    DocumentHandler.createSourceFolder(
+    FileSystemHandler.createSourceFolder(
       this.storage.getConfigProperty(ConfigEnum.documentsPath),
     );
-    DocumentHandler.printEnum(
+    Object.values(PrintEnum).forEach((type) => {
+        FileSystemHandler.printEnum(
+            this.storage.getConfigProperty(ConfigEnum.documentsPath),
+            this.enums,
+            type as PrintEnum,
+        );
+    })
+    /*FileSystemHandler.printEnumMarkdown(
       this.storage.getConfigProperty(ConfigEnum.documentsPath),
-      this.getEnums(),
+      this.enums,
     );
-  }
-
-  public setGetType(getEnum: GetEnum): void {
-    this.storage.getType = getEnum;
+    FileSystemHandler.printEnumMARKDOWN(
+        this.storage.getConfigProperty(ConfigEnum.documentsPath),
+        this.enums
+    );
+    FileSystemHandler.printEnumMERMAID(
+        this.storage.getConfigProperty(ConfigEnum.documentsPath),
+        this.enums
+    )*/
   }
 
   public handleEnums(): void {
     const enums = EnumHandler.iterateOverEnums(this);
-    for (const enumInstance of enums) {
-      this.storage.setEnum(enumInstance);
-    }
-  }
 
+    this.enums = new RuntimeEnumsHandler(enums);
+  }
+/*
   public getEnums(): IRuntimeEnumInterface[];
   public getEnums(getType: GetEnum.Map): Map<string, IRuntimeEnumInterface>;
+  public getENums(getType: GetEnum.MARKDOWN): string;
   public getEnums(
     getType: GetEnum.Record,
   ): Record<string, IRuntimeEnumInterface>;
@@ -68,7 +85,9 @@ export class ProjectHandler {
   ):
     | Map<string, IRuntimeEnumInterface>
     | Record<string, IRuntimeEnumInterface>
-    | IRuntimeEnumInterface[] {
+    | IRuntimeEnumInterface[]
+    | string
+  {
     const enums = Array.from(this.storage.enums.values());
 
     const type = getType ?? this.storage.getType;
@@ -84,9 +103,14 @@ export class ProjectHandler {
           },
           {} as Record<string, IRuntimeEnumInterface>,
         ); // Return as Record
+      case GetEnum.MARKDOWN:
+        return this.generateMarkdownContent(enums);
       case GetEnum.List:
       default:
         return enums as []; // Return as List
     }
   }
+*/
+
+
 }
