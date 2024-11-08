@@ -8,7 +8,7 @@ export class ParseEntityScript extends EntryPoint {
     this.project = new ProjectHandler();
   }
   main(): number {
-    this.project.handleEnums();
+    this.project.parseEnums();
 
     this.project.generateDocumentation();
     return 0;

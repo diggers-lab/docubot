@@ -10,6 +10,11 @@ export class IRuntimeEnumInterface {
 
 }
 
+export enum InheritanceType {
+    EXTENDS = "extends",
+    IMPLEMENTS = "implements",
+}
+
 export enum GetEnum {
   MAP = "MAP",
   RECORD = "RECORD",

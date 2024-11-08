@@ -3,7 +3,8 @@ import * as path from "node:path";
 import {GetEnum, PrintEnum} from "@model/enum/runtimeEnum.interface";
 import {RuntimeEnumsHandler} from "@handler/project/enums.handler";
 import {IInterfaceHandler} from "@handler/project/interface.handler";
-import {IInterface} from "@interface/interface.interface";
+import {IInterface} from "@handler/project/interface/interface.interface";
+import {InterfacesHandler} from "@handler/project/interface/interfaces.handler";
 
 export class FileSystemHandler {
 
@@ -18,7 +19,8 @@ export class FileSystemHandler {
     }
   }
 
-  static printInterfaceJSON(sourceFolder: string, interfaces: IInterfaceHandler): void {
+
+  static printInterfaceJSON(sourceFolder: string, interfacesHandler: InterfacesHandler): void {
     const interfaceFolder = "interfaces";
     if (!fs.existsSync(`${path.join(sourceFolder, interfaceFolder)}`)) {
       try {
@@ -27,25 +29,22 @@ export class FileSystemHandler {
         console.error("Error creating interface folder: ", error);
       }
     }
-    const test: Array<Partial<IInterface>> = interfaces.interfaces.map((interfaceItem: IInterface): Partial<IInterface> => {
-        return {
-          name: interfaceItem.name,
-          properties: interfaceItem.properties,
-          methods: interfaceItem.methods,
-          extends: interfaceItem.extends,
-          indexSignature: interfaceItem.indexSignature,
-          callableSignature: interfaceItem.callableSignature,
-          typeParameters: interfaceItem.typeParameters,
-            heritages: interfaceItem.heritages,
-
-
-
-      };
-    })
     fs.writeFileSync(
       `${path.join(sourceFolder, interfaceFolder, "interfaces.json")}`,
-        JSON.stringify(test),
+        interfacesHandler.get.json(),
     );
+  }
+
+  static printInterface(sourcefolder: string, interfacesHandler: InterfacesHandler): void {
+    const interfaceFolder = "interfaces";
+    if (!fs.existsSync(`${path.join(sourcefolder, interfaceFolder)}`)) {
+      try {
+        fs.mkdirSync(`${path.join(sourcefolder, interfaceFolder)}`);
+      } catch (error) {
+        console.error("Error creating interface folder: ", error);
+      }
+    }
+    fs.writeFileSync(`${path.join(sourcefolder, interfaceFolder, "interfaces.json")}`, interfacesHandler.get.json());
   }
 
   static printEnum(sourceFolder: string, enums: RuntimeEnumsHandler, type: PrintEnum): void {
