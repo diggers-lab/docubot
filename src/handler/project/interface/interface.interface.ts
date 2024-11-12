@@ -9,13 +9,6 @@ export interface IInterface {
     typeParameters?: string[];
 }
 
-export interface IProperty {
-    name: string;
-    type: string[];
-    optional: boolean;
-    readonly: boolean;
-}
-
 export interface IMethod {
     name: string;
     returnType: string;

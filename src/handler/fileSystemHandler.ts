@@ -5,6 +5,7 @@ import {RuntimeEnumsHandler} from "@handler/project/enums.handler";
 import {IInterfaceHandler} from "@handler/project/interface.handler";
 import {IInterface} from "@handler/project/interface/interface.interface";
 import {InterfacesHandler} from "@handler/project/interface/interfaces.handler";
+import {ClassHandler} from "@handler/project/class/class.handler";
 
 export class FileSystemHandler {
 
@@ -19,6 +20,20 @@ export class FileSystemHandler {
     }
   }
 
+  static printClassJSon(sourceFolder: string, classesHandler: ClassHandler) : void {
+    const classFolder = "classes";
+    if (!fs.existsSync(`${path.join(sourceFolder, classFolder)}`)) {
+      try {
+        fs.mkdirSync(`${path.join(sourceFolder, classFolder)}`);
+      } catch (error) {
+        console.error("Error creating class folder: ", error);
+      }
+    }
+    fs.writeFileSync(
+      `${path.join(sourceFolder, classFolder, "classes.json")}`,
+      classesHandler.get.json(),
+    );
+  }
 
   static printInterfaceJSON(sourceFolder: string, interfacesHandler: InterfacesHandler): void {
     const interfaceFolder = "interfaces";

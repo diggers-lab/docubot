@@ -3,7 +3,7 @@ import {IInterface, IMethod, IParameter, IProperty, IStatement} from "@handler/p
 import {IBaseHandler} from "@model/base.handler";
 
 
-export class InterfaceParser implements IBaseHandler{
+export class InterfaceParser {
     name!: string;
     interfaceDecl: InterfaceDeclaration;
     interface!: IInterface;

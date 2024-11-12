@@ -1,4 +1,4 @@
-import {Project} from "ts-morph";
+import {ClassDeclaration, Project, SourceFile, SyntaxKind, TypeChecker} from "ts-morph";
 import {ConfigEnum, ConfigStorage} from "@storage/config.storage";
 import {RuntimeEnumsHandler} from "@handler/project/enums.handler";
 import {InterfaceParser} from "@handler/project/interface/interfaceParser";
@@ -7,6 +7,11 @@ import {GetEnum, IRuntimeEnumInterface, PrintEnum} from "@model/enum/runtimeEnum
 import {FileSystemHandler} from "@handler/fileSystemHandler";
 import {EnumHandler} from "@handler/project/enum/enum.handler";
 import {InterfacesHandler, InterfacesHandlerGetType} from "@handler/project/interface/interfaces.handler";
+import {ClassHandler} from "@handler/project/class/class.handler";
+import {IFileDetails} from "@model/fileDetails.interface";
+import {FileDetailsParser} from "@model/parser/FileDetails.parser";
+import {FileDetailsHandler} from "@model/parser/base.parser";
+import {ClassParser} from "@handler/project/class/class.parser";
 
 const tsConfigName = "tsconfig.json";
 
@@ -16,6 +21,8 @@ export class ProjectHandler {
   private readonly storage: ConfigStorage;
   enums!: RuntimeEnumsHandler;
   interfacesHandler!: InterfacesHandler;
+  fileDetails!: Record<string,Readonly<FileDetailsParser>>;
+  classHandler!: ClassHandler;
 
   constructor(configPath: string) {
     this.storage = new ConfigStorage(configPath);
@@ -28,12 +35,55 @@ export class ProjectHandler {
       useInMemoryFileSystem: false,
     });
     this.storage.getType = GetEnum.LIST;
+    this.classHandler = new ClassHandler(this.project.getTypeChecker());
+
   }
+
+  parseFiles(): void {
+    const fileList : Record<string, Readonly<FileDetailsParser>> = {};
+    this.project.getSourceFiles().forEach((sourceFile: SourceFile) => {
+      const fileName: string = sourceFile.getBaseName();
+      const fileDetail = new FileDetailsParser(sourceFile);
+      fileList[fileName] = Object.freeze(fileDetail);
+    })
+    this.fileDetails = fileList;
+
+  }
+
+  addClass(classDeclaration: ClassDeclaration, typeChecker: TypeChecker) {
+    const fileDetails = this.fileDetails[classDeclaration.getSourceFile().getBaseName()] ?? null;
+    const classParser = this.classHandler.addClass(classDeclaration, typeChecker);
+    classParser.setFileDetails(fileDetails);
+    console.log("this.classHandler.classes.length: >>", this.classHandler.classes.length);
+  }
+
+  parseClasses(classes: ClassDeclaration[], fileDetails: FileDetailsParser): boolean {
+    if (classes.length === 0) {
+        return false;
+    }
+    classes.forEach((classDeclaration: ClassDeclaration) => {
+      classDeclaration.getMembers().forEach((member) => {
+        /*console.log("member: >>",SyntaxKind[member.getKind()]);
+        console.log("member name: >>", member.getSymbol()?.getName());
+        console.log("member type: >>", member.getType().getText());
+        console.log("member value: >>", member.getStructure());*/
+      });
+      try {
+        this.classHandler.addClass(classDeclaration, fileDetails);
+      } catch (e) {
+        console.error("e: >>", e);
+        return false;
+      }
+    });
+    return true;
+  }
+
 
   parseProject(): void {
     this.parseEnums();
     this.parseInterfaces();
   }
+
 
   public getEnums(
       getType: GetEnum,
