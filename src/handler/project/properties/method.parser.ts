@@ -1,20 +1,10 @@
 import {StructureType} from "@handler/project/properties/properties.handler";
 import {
-    ClassDeclaration, EnumDeclaration, FunctionDeclaration,
-    InterfaceDeclaration,
     PropertyDeclaration,
-    Scope,
-    StructureKind,
     SyntaxKind,
-    Type, TypeAliasDeclaration, TypeChecker, VariableDeclaration
+    TypeChecker
 } from "ts-morph";
-
-const classDeclaration: SyntaxKind.ClassDeclaration = SyntaxKind.ClassDeclaration;
-const interfaceDeclaration:  SyntaxKind.InterfaceDeclaration = SyntaxKind.InterfaceDeclaration;
-const enumDeclaration: SyntaxKind.EnumDeclaration = SyntaxKind.EnumDeclaration;
-const functionDeclaration: SyntaxKind.FunctionDeclaration = SyntaxKind.FunctionDeclaration;
-const variableDeclaration: SyntaxKind.VariableDeclaration = SyntaxKind.VariableDeclaration;
-const typeAliasDeclaration: SyntaxKind.TypeAliasDeclaration = SyntaxKind.TypeAliasDeclaration;
+import {IBaseProperty} from "@handler/project/properties/propertyDetails.parser";
 
 export enum  DeclarationType {
     Class = "ClassDeclaration",
@@ -44,8 +34,6 @@ export function fillBaseTypeFromType(property: PropertyDeclaration, typeChecker:
     return variable;
 }
 
-
-
 export interface IVariable {
     name: string;
     variableType: StructureType;
@@ -71,5 +59,4 @@ export interface IVariable {
     isVoid: boolean;
     isAny: boolean;
     isObject: boolean;
-
 }

@@ -1,4 +1,4 @@
-import {ClassDeclaration, Project, SourceFile, SyntaxKind, TypeChecker} from "ts-morph";
+import {ClassDeclaration, Project, SourceFile, TypeChecker} from "ts-morph";
 import {ConfigEnum, ConfigStorage} from "@storage/config.storage";
 import {RuntimeEnumsHandler} from "@handler/project/enums.handler";
 import {InterfaceParser} from "@handler/project/interface/interfaceParser";
@@ -6,12 +6,9 @@ import * as path from "node:path";
 import {GetEnum, IRuntimeEnumInterface, PrintEnum} from "@model/enum/runtimeEnum.interface";
 import {FileSystemHandler} from "@handler/fileSystemHandler";
 import {EnumHandler} from "@handler/project/enum/enum.handler";
-import {InterfacesHandler, InterfacesHandlerGetType} from "@handler/project/interface/interfaces.handler";
+import {InterfacesHandler} from "@handler/project/interface/interfaces.handler";
 import {ClassHandler} from "@handler/project/class/class.handler";
-import {IFileDetails} from "@model/fileDetails.interface";
 import {FileDetailsParser} from "@model/parser/FileDetails.parser";
-import {FileDetailsHandler} from "@model/parser/base.parser";
-import {ClassParser} from "@handler/project/class/class.parser";
 
 const tsConfigName = "tsconfig.json";
 
@@ -52,38 +49,10 @@ export class ProjectHandler {
 
   addClass(classDeclaration: ClassDeclaration, typeChecker: TypeChecker) {
     const fileDetails = this.fileDetails[classDeclaration.getSourceFile().getBaseName()] ?? null;
-    const classParser = this.classHandler.addClass(classDeclaration, typeChecker);
+    const classParser = this.classHandler.addClass(classDeclaration);
     classParser.setFileDetails(fileDetails);
     console.log("this.classHandler.classes.length: >>", this.classHandler.classes.length);
   }
-
-  parseClasses(classes: ClassDeclaration[], fileDetails: FileDetailsParser): boolean {
-    if (classes.length === 0) {
-        return false;
-    }
-    classes.forEach((classDeclaration: ClassDeclaration) => {
-      classDeclaration.getMembers().forEach((member) => {
-        /*console.log("member: >>",SyntaxKind[member.getKind()]);
-        console.log("member name: >>", member.getSymbol()?.getName());
-        console.log("member type: >>", member.getType().getText());
-        console.log("member value: >>", member.getStructure());*/
-      });
-      try {
-        this.classHandler.addClass(classDeclaration, fileDetails);
-      } catch (e) {
-        console.error("e: >>", e);
-        return false;
-      }
-    });
-    return true;
-  }
-
-
-  parseProject(): void {
-    this.parseEnums();
-    this.parseInterfaces();
-  }
-
 
   public getEnums(
       getType: GetEnum,
@@ -91,7 +60,6 @@ export class ProjectHandler {
       | Record<string, IRuntimeEnumInterface>
       | IRuntimeEnumInterface[]
       | string {
-    //const enums = Array.from(this.storage.enums.values());
     return this.enums.getEnums(getType);
   }
 

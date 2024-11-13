@@ -24,7 +24,6 @@ export enum UtilityTypeEnum {
     UNCAPITALIZE = "Uncapitalize",
 }
 
-
 export interface IValueType {
     rawType: string;
     possibleTypes: Set<string>;
@@ -74,7 +73,7 @@ export class ValueTypeParser {
     private readonly _propertyDeclaration!: PropertyDeclaration;
     private readonly _typeChecker!: TypeChecker;
 
-    private rawType: string;
+    private rawType!: string;
 
     setRawType() {
         this.rawType = getTypeFromImport(this._propertyDeclaration.getType());
@@ -93,19 +92,19 @@ export class ValueTypeParser {
         console.log("setPossibleTypes")
     }
 
-    private isNullable: boolean;
+    private isNullable!: boolean;
 
     setIsNullable() {
         this.isNullable = this._propertyDeclaration.getType().isNullable();
     }
 
-    private isArray: boolean;
+    private isArray!: boolean;
 
     setIsArray() {
         this.isArray = this._propertyDeclaration.getType().isArray();
     }
 
-    private isUnion: boolean;
+    private isUnion!: boolean;
 
     setIsUnion() {
         this.isUnion = this._propertyDeclaration.getType().isUnion();
@@ -115,7 +114,7 @@ export class ValueTypeParser {
 
     }
 
-    private isIntersection: boolean;
+    private isIntersection!: boolean;
 
     setIsIntersection() {
         this.isIntersection = this._propertyDeclaration.getType().isIntersection();
@@ -124,7 +123,7 @@ export class ValueTypeParser {
         });
     }
 
-    private isTuple: boolean;
+    private isTuple!: boolean;
 
     setIsTuple() {
         this.isTuple = this._propertyDeclaration.getType().isTuple();
@@ -133,7 +132,7 @@ export class ValueTypeParser {
         });
     }
 
-    private isMap: boolean;
+    private isMap!: boolean;
 
     setIsMap() {
         if (["Map"].includes(this._propertyDeclaration.getType().getSymbol()?.getName())) {
@@ -144,7 +143,7 @@ export class ValueTypeParser {
         }
     }
 
-    private isSet: boolean;
+    private isSet!: boolean;
 
     setIsSet() {
         if (["Set"].includes(this._propertyDeclaration.getType().getSymbol()?.getName())) {
@@ -155,27 +154,84 @@ export class ValueTypeParser {
         }
     }
 
-    private isWeakMap: boolean;
-    private WeakMapTypes?: Array<string>;
+    private isWeakMap!: boolean;
 
-    private isWeakSet: boolean;
-    private WeakSetTypes?: Array<string>;
+    setIsWeakMap() {
+        if (["WeakMap"].includes(this._propertyDeclaration.getType().getSymbol()?.getName())) {
+            this.isWeakMap = true;
+            this._propertyDeclaration.getType().getTypeArguments().forEach((type) => {
+                this.possibleTypes = type;
+            });
+        }
+    }
 
-    private isRecord: boolean;
-    private RecordTypes?: Array<string>;
+    private isWeakSet!: boolean;
 
-    private isPromise: boolean;
-    private PromiseTypes?: Array<string>;
+    setIsWeakSet() {
+        if (["WeakSet"].includes(this._propertyDeclaration.getType().getSymbol()?.getName())) {
+            this.isWeakSet = true;
+            this._propertyDeclaration.getType().getTypeArguments().forEach((type) => {
+                this.possibleTypes = type;
+            });
+        }
+    }
 
-    private isReadonly: boolean;
-    private isOptional: boolean;
+    private isRecord!: boolean;
 
-    private isUtilityType: boolean;
-    private utilityType?: Array<string>;
+    setIsRecord() {
+        if (this._propertyDeclaration.getType().getTargetType()?.getText().includes("Record")) {
+            this.isRecord = true;
+            this._propertyDeclaration.getType().getAliasTypeArguments().forEach((type) => {
+                this.possibleTypes = type;
+            });
+        }
+    }
 
-    private isAnonymous: boolean;
+    private isPromise!: boolean;
 
-    private isUtilityType: boolean;
+    setIsPromise() {
+        if (this._propertyDeclaration.getType().getSymbol()?.getName() === "Promise") {
+            this.isPromise = true;
+            this._propertyDeclaration.getType().getTypeArguments().forEach((type) => {
+                this.possibleTypes = type;
+            });
+        }
+    }
+
+    private isReadonly!: boolean;
+
+    setIsReadonly() {
+        this.isReadonly = this._propertyDeclaration.isReadonly();
+    }
+
+    private isOptional!: boolean;
+
+    setIsOptional() {
+        console.log("this._propertyDeclaration.getStructure() :>>", this._propertyDeclaration.getStructure());
+        this.isOptional = this._propertyDeclaration.hasQuestionToken();
+    }
+
+    private isStatic!: boolean;
+
+    setIsStatic() {
+        this.isStatic = this._propertyDeclaration.isStatic();
+    }
+
+    private isAbstract!: boolean;
+
+    setIsAbstract() {
+        this.isAbstract = this._propertyDeclaration.isAbstract();
+    }
+
+    private isAnonymous!: boolean;
+
+    setIsAnonymous() {
+        if (!this._propertyDeclaration.getName() || this._propertyDeclaration.getName() === "") {
+            this.isAnonymous = true
+        }
+    }
+
+    private isUtilityType!: boolean;
     private utilityTypes: string[] = []; // possibleType found
 
     setIsUtilityType() {

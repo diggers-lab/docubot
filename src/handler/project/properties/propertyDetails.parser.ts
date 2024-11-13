@@ -27,9 +27,13 @@ class test {
     intersetiontest:  IVariable & IBaseProperty;
     testMap: Map<IVariable, IBaseProperty>;
     testSet: Set<Promise<IVariable>>;
-    kakatoes: Promise<IVariable>;
 
     private _kiki: string;
+
+    private tatatest: Record<string, IVariable>
+    private tototest: WeakSet<IVariable>;
+    private kirikou: Set<Promise<IVariable>>
+    kakatoes?: Promise<IVariable>;
 
     set kiki(value: string) {
 

@@ -2,8 +2,6 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import {GetEnum, PrintEnum} from "@model/enum/runtimeEnum.interface";
 import {RuntimeEnumsHandler} from "@handler/project/enums.handler";
-import {IInterfaceHandler} from "@handler/project/interface.handler";
-import {IInterface} from "@handler/project/interface/interface.interface";
 import {InterfacesHandler} from "@handler/project/interface/interfaces.handler";
 import {ClassHandler} from "@handler/project/class/class.handler";
 
@@ -121,19 +119,4 @@ export class FileSystemHandler {
     );
   }
 
-
-  static printEnumJSONSCHEMA31(sourceFolder: string, enums:RuntimeEnumsHandler): void {
-    const enumFolder = "enums";
-    if (!fs.existsSync(`${path.join(sourceFolder, enumFolder)}`)) {
-      try {
-        fs.mkdirSync(`${path.join(sourceFolder, enumFolder)}`);
-      } catch (error) {
-        console.error("Error creating enum folder: ", error);
-      }
-    }
-    fs.writeFileSync(
-        `${path.join(sourceFolder, enumFolder, "enums.schema.json")}`,
-        (enums.getEnums(PrintEnum.JSONSCHEMA31) as string)
-    );
-  }
 }

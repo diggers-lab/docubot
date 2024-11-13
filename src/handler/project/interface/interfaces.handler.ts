@@ -1,6 +1,5 @@
-import {IInterface} from "@handler/project/interface/interface.interface";
 import {InterfaceParser} from "@handler/project/interface/interfaceParser";
-import {BaseHandlerType, IBaseHandler} from "@model/base.handler";
+import {BaseHandlerType} from "@model/base.handler";
 import {interfaceToJson} from "@handler/project/interface/interface.converter";
 
 export enum InterfacesHandlerGetType {

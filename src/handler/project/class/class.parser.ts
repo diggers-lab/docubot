@@ -1,4 +1,4 @@
-import {ClassDeclaration, ClassMemberTypes, PropertyDeclaration, TypeChecker} from "ts-morph";
+import {ClassDeclaration, ClassMemberTypes, TypeChecker} from "ts-morph";
 import {DeclarationType, FileDetailsParser, getUniqueRandomName} from "@model/parser/FileDetails.parser";
 import {PropertiesHandler} from "@handler/project/properties/properties.handler";
 
@@ -13,8 +13,8 @@ interface Employee {
 export class ClassParser {
     readonly name: Readonly<string>;
     classDeclaration: Readonly<ClassDeclaration>;
-    private readonly fileDetails!: Readonly<FileDetailsParser>
-    private readonly properties!: Readonly<PropertiesHandler>;
+    private fileDetails!: Readonly<FileDetailsParser>
+    private readonly properties: Readonly<PropertiesHandler>;
 
 
     constructor(classDeclaration: ClassDeclaration, typeChecker: TypeChecker) {
@@ -28,7 +28,7 @@ export class ClassParser {
         });
     }
 
-    setFileDetails(fileDetails: FileDetailsParser) {
+    setFileDetails(fileDetails: Readonly<FileDetailsParser>) {
         this.fileDetails = fileDetails;
     }
 

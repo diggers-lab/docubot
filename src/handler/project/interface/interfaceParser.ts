@@ -1,6 +1,5 @@
 import {InterfaceDeclaration, MethodSignature, SyntaxKind} from "ts-morph";
-import {IInterface, IMethod, IParameter, IProperty, IStatement} from "@handler/project/interface/interface.interface";
-import {IBaseHandler} from "@model/base.handler";
+import {IInterface, IMethod, IParameter, IStatement} from "@handler/project/interface/interface.interface";
 
 
 export class InterfaceParser {

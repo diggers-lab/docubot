@@ -1,5 +1,3 @@
-import {JSONSchema7} from "json-schema";
-
 export interface IBaseHandler {
     toString(): string;
     toJson(): string;

@@ -1,7 +1,6 @@
 import {ClassParser} from "@handler/project/class/class.parser";
 import {ClassDeclaration, TypeChecker} from "ts-morph";
 import {classToJson} from "@handler/project/class/class.converter";
-import {propertyToJson} from "@handler/project/properties/property.converter";
 
 export class ClassHandler {
     classes: ClassParser[] = [];

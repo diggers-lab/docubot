@@ -15,7 +15,10 @@ export enum ConfigEnum {
 }
 
 export class ConfigStorage {
-  private readonly config: ConfigStorageBasics = {};
+  private readonly config: ConfigStorageBasics = {
+    baseUrl: "",
+    documentsPath: "",
+  };
 
   constructor(configPath: string) {
     this.config.baseUrl = configPath;

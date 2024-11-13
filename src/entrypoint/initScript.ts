@@ -28,6 +28,7 @@ export class InitScript extends EntryPoint {
     if (!config) {
       let configPath = await this.askConfigPath();
       if (configPath === "") {
+
       }
       console.log("toto :><", `${path.join(process.cwd(), configPath)}`);
       config = fs.readFileSync(
@@ -39,7 +40,7 @@ export class InitScript extends EntryPoint {
     await this.end();
   }
 
-  async askConfigPath(): Promise<void> {
+  async askConfigPath(): Promise<string> {
     return await this.cliHandler.askQuestion(
       "relative path to the config file (enter to create at './config/docubot.config.json'): ",
     );

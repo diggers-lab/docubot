@@ -30,7 +30,17 @@ export class FileDetailsParser {
     private fileDetails!: IFileDetails;
 
     constructor(sourceFile: SourceFile) {
-        this.fileDetails = {};
+        this.fileDetails = {
+            fileName: "",
+            filePath: "",
+            startLine: 0,
+            endLine: 0,
+            directoryPath: "",
+            fileSize: 0,
+            lastModified: new Date(),
+            isInProject: false,
+            sourceFile: sourceFile,
+        };
         this.setFilePath(sourceFile);
         this.setStartLine(sourceFile);
         this.setEndLine(sourceFile);
@@ -71,12 +81,12 @@ export class FileDetailsParser {
 
     // Set startLine from SourceFile
     private setStartLine(sourceFile: SourceFile): void {
-        this.fileDetails.startLine = Object.freeze(sourceFile.getStartLineNumber().toFixed());
+        this.fileDetails.startLine = Object.freeze(sourceFile.getStartLineNumber());
     }
 
     // Set endLine from SourceFile
     private setEndLine(sourceFile: SourceFile): void {
-        this.fileDetails.endLine = Object.freeze(sourceFile.getEndLineNumber().toFixed());
+        this.fileDetails.endLine = Object.freeze(sourceFile.getEndLineNumber());
     }
 
     // Set directoryPath from SourceFile
