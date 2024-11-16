@@ -9,17 +9,21 @@ import {EnumHandler} from "@handler/project/enum/enum.handler";
 import {InterfacesHandler} from "@handler/project/interface/interfaces.handler";
 import {ClassHandler} from "@handler/project/class/class.handler";
 import {FileDetailsParser} from "@model/parser/FileDetails.parser";
+import {PackageHandler} from "@handler/project/packages/package.handler";
+import {IJsonPackage} from "@handler/project/packages/jsonPackage.interface";
+import {PackageParser} from "@handler/project/packages/package.parser";
 
 const tsConfigName = "tsconfig.json";
 
 
 export class ProjectHandler {
   readonly project: Project;
-  private readonly storage: ConfigStorage;
+  readonly storage: ConfigStorage;
   enums!: RuntimeEnumsHandler;
   interfacesHandler!: InterfacesHandler;
   fileDetails!: Record<string,Readonly<FileDetailsParser>>;
   classHandler!: ClassHandler;
+  package!: PackageHandler;
 
   constructor(configPath: string) {
     this.storage = new ConfigStorage(configPath);
@@ -30,10 +34,31 @@ export class ProjectHandler {
       tsConfigFilePath: `${path.join(this.storage.getConfigProperty(ConfigEnum.baseUrl), tsConfigName)}`,
       skipAddingFilesFromTsConfig: false,
       useInMemoryFileSystem: false,
+      libFolderPath: this.storage.getConfigProperty(ConfigEnum.baseUrl) + "package.json"
     });
     this.storage.getType = GetEnum.LIST;
     this.classHandler = new ClassHandler(this.project.getTypeChecker());
+    this.package = new PackageHandler(this.storage.getConfigProperty(ConfigEnum.baseUrl) + "package.json",
+        this.project.getTypeChecker(), this.project);
+  }
 
+  getDependencies(): PackageParser[] {
+    return this.package.packages.map((pkg) => {
+      return pkg;
+    });
+  }
+
+  getProjectDescription(): Partial<IJsonPackage> {
+    return {
+        name: this.package.jsonPackage.name,
+        version: this.package.jsonPackage.version,
+        description: this.package.jsonPackage.description,
+        keywords: this.package.jsonPackage.keywords,
+        homepage: this.package.jsonPackage.homepage,
+        repository: this.package.jsonPackage.repository,
+        author: this.package.jsonPackage.author,
+        scripts: this.package.jsonPackage.scripts,
+    }
   }
 
   parseFiles(): void {
