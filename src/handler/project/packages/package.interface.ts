@@ -1,12 +1,13 @@
 export interface IPackage {
     name: string;
+    fileName: string;
     type: "dependency" | "devDependency";
+    readme: string;
     keywords: string[];
     version: string;
     description: string;
-    importNames: string[];
+    usages?: number;
     usagesLocations: IPackageUsage[];
-    requiredBy: string[]; // list of package that require this package
 }
 
 export interface IPackageUsage {

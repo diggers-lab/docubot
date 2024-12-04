@@ -27,7 +27,6 @@ export class PropertyParser {
         if (property instanceof PropertyDeclaration) {
             const type = property.getType();
             const valueType = new ValueTypeParser(property, typeChecker);
-           console.log("valueType.toJson(): >>", valueType.toJson());
         }
     }
 

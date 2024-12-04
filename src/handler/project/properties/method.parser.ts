@@ -29,8 +29,6 @@ export function fillBaseTypeFromType(property: PropertyDeclaration, typeChecker:
     if (variable.structureKind === DeclarationType.property && typeChecker.getTypeAtLocation(property)?.getInitializer) {
         variable.structureKind = DeclarationType.function;
     }
-    console.log("variable name: ", variable.name);
-    console.log("SyntaxKind[property.getKind()] :>>", SyntaxKind[property.getKind()]);
     return variable;
 }
 

@@ -19,7 +19,6 @@ export class ClassParser {
 
     constructor(classDeclaration: ClassDeclaration, typeChecker: TypeChecker) {
         this.name = classDeclaration.getName() ?? Object.freeze(getUniqueRandomName(classDeclaration));
-        console.log("___\nclass name: >>", this.name);
 
         this.classDeclaration = classDeclaration;
         this.properties = new PropertiesHandler(typeChecker);

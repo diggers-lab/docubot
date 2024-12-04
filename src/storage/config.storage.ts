@@ -25,11 +25,11 @@ export class ConfigStorage {
 
   constructor(configPath: string) {
     this.config.baseUrl = configPath;
-    console.log("configPath", configPath);
     this.config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
   }
 
   public getConfigProperty(property: ConfigEnum): string {
+
     return this.config[ConfigEnum[property]];
   }
 }

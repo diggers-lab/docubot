@@ -1,5 +1,6 @@
 import {IPackage, IPackageUsage} from "@handler/project/packages/package.interface";
 import {ImportDeclaration, Project, SourceFile, SyntaxKind, TypeChecker} from "ts-morph";
+import * as module from "node:module";
 
 export class PackageParser {
     importDeclaration: ImportDeclaration;
@@ -16,19 +17,23 @@ export class PackageParser {
 
     public get name(): string {
         // replace impossible characters in markdown with blank value
-        return this.package.name.replace('@', '').replace('/', '');
+        return this.package.name
     }
 
-    async setImportDeclaration() {
+    public get filename(): string {
+        return this.package.fileName;
+    }
+
+    setImportDeclaration() {
         this.project.getSourceFiles().forEach((sourceFile) => {
-           sourceFile.getDescendantsOfKind(SyntaxKind.ImportDeclaration).forEach((importDeclaration) => {
+            for(const importDeclaration of (sourceFile.getDescendantsOfKind(SyntaxKind.ImportDeclaration))) {
                 if (importDeclaration.getModuleSpecifierValue() === this.package.name) {
-                     this.importDeclaration = importDeclaration;
+                    this.importDeclaration = importDeclaration;
                 }
                 this.setPackageUsages(sourceFile, this.package.name);
-           });
+
+            }
         });
-        await this.getNpmRegistry(this.package.name);
     }
 
     async getNpmRegistry(moduleName: string): Promise<Record<string, string>> {
@@ -43,8 +48,11 @@ export class PackageParser {
             if (!data['dist-tags']) {
                 throw new Error(`No tags found for module ${moduleName}`);
             }
-            this.package.keywords = data.keywords;
-            return data;
+            this.package.description = data.description;
+            this.package.keywords = data.keywords ?? [];
+            //this.package.registry = data;
+            this.package.readme = data.readme || data.homepage;
+            this.package.name = data.name;
         } catch (error) {
             console.error(`Error fetching tags for module ${moduleName}:`, error);
             return {};
@@ -53,8 +61,8 @@ export class PackageParser {
 
     setPackageUsages(sourceFile: SourceFile, moduleName: string) {
         const usages: IPackageUsage[] = [];
-        if (!sourceFile?.getDescendantsOfKind)
-            return;
+        if (!sourceFile.getDescendantsOfKind) return;
+
         sourceFile.getDescendantsOfKind(SyntaxKind.ImportDeclaration).forEach((importDeclaration) => {
             if (importDeclaration.getModuleSpecifierValue() === moduleName) {
                 const namedImports = importDeclaration.getNamedImports();
@@ -67,19 +75,28 @@ export class PackageParser {
                     importUsages.forEach((usage) => {
                         const parentKind = usage.getParent()?.getKind();
                         const isDefinition = parentKind === SyntaxKind.ImportSpecifier;
-                        usages.push({
+                        const tmp: IPackageUsage = {
                             filePath: sourceFile.getFilePath(),
                             packageName: moduleName,
                             importName: importName,
                             line: usage.getStartLineNumber(),
                             type: isDefinition ? "import" : "usage"
-                        });
+                        };
+                        if (!usages.find((usage) => usage.type === tmp.type && usage.line === tmp.line && usage.filePath === tmp.filePath && usage.importName === tmp.importName))
+                            usages.push(tmp);
                     });
                 });
             }
         });
+        // filter out duplicates usages
+        this.package.usagesLocations = this.package.usagesLocations.filter((usage, index, self) => {
+            return index === self.findIndex((t) => (
+                t.filePath === usage.filePath && t.importName === usage.importName && t.line === usage.line && t.type === usage.type
+            ));
+        });
 
-        this.package.usagesLocations = usages;
+        this.package.usagesLocations.push(...usages);
+        this.package.usages = this.package.usagesLocations.length;
     }
 
 }

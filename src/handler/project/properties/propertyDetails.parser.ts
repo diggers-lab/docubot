@@ -69,15 +69,11 @@ export class PropertyDetaisParser implements IBaseProperty {
         } else {
             this.name = undefined;
         }
-        console.log("name :>>", this.name);
         if (property instanceof PropertyDeclaration) {
-            console.log("I'm a property");
             this.structureKind = DeclarationType.property;
         } else if (property instanceof MethodDeclaration ) {
-            console.log("I'm a method");
             this.structureKind = DeclarationType.function;
         } else if (property instanceof ConstructorDeclaration) {
-            console.log("I'm a constructor");
             this.structureKind = DeclarationType.constructor;
         }
     }

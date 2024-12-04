@@ -89,7 +89,6 @@ export class ValueTypeParser {
         this._propertyDeclaration.getType().getTypeArguments().forEach((type) => {
             this.possibleTypes = type;
         });
-        console.log("setPossibleTypes")
     }
 
     private isNullable!: boolean;
@@ -207,7 +206,6 @@ export class ValueTypeParser {
     private isOptional!: boolean;
 
     setIsOptional() {
-        console.log("this._propertyDeclaration.getStructure() :>>", this._propertyDeclaration.getStructure());
         this.isOptional = this._propertyDeclaration.hasQuestionToken();
     }
 

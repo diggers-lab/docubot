@@ -48,7 +48,7 @@ export class ProjectHandler {
     });
   }
 
-  getProjectDescription(): Partial<IJsonPackage> {
+  getProjectDescription(): IJsonPackage {
     return {
         name: this.package.jsonPackage.name,
         version: this.package.jsonPackage.version,
@@ -76,7 +76,6 @@ export class ProjectHandler {
     const fileDetails = this.fileDetails[classDeclaration.getSourceFile().getBaseName()] ?? null;
     const classParser = this.classHandler.addClass(classDeclaration);
     classParser.setFileDetails(fileDetails);
-    console.log("this.classHandler.classes.length: >>", this.classHandler.classes.length);
   }
 
   public getEnums(
@@ -128,7 +127,6 @@ export class ProjectHandler {
 
   public parseInterfaces(): void {
     const interfacesHandler: InterfacesHandler = new InterfacesHandler();
-    console.log("interfacesHandler :>> ", interfacesHandler);
 
     this.project.getSourceFiles().flatMap((sourceFile) => {
       sourceFile.getInterfaces().forEach((interfaceDeclaration) => {

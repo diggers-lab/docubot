@@ -7,7 +7,6 @@ export const propertyToJson = (properties: PropertyParser[]): string => {
     properties.forEach((property, index) => {
         const jsonified = property.toJson();
         if (!jsonified) return;
-        console.log("json :>>", property.toJson());
         json += property.toJson();
         if (index !== properties.length - 1)
             json += ',';

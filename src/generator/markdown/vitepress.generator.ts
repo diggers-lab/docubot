@@ -19,16 +19,12 @@ export class VitepressGenerator {
         {
         let file = "";
         let linkToData = this.linkToData;
-        const dataFileParts = fileStore.dataPath.split("/").length;
-        for(let i = 2; i < dataFileParts; i++) {
-            linkToData = linkToData.replace("data/", "../data/");
-        }
-        linkToData = replaceFilePath(linkToData, fileStore.markdownPath.split(".")[0])
-        file = file.concat(linkToData);
-        file = file.concat(fileStore.markdownContent);
+        //linkToData = replaceFilePath(linkToData, fileStore.markdownPath.split(".")[0])
+        //file = file.concat(linkToData);
+        //file = file.concat(fileStore.markdownContent);
         return {
-            markdownPath: fileStore.markdownPath,
-            markdownContent: file,
+            //markdownPath: fileStore.markdownPath,
+           // markdownContent: file,
             dataPath: fileStore.dataPath,
             dataContent: fileStore.dataContent
         }
